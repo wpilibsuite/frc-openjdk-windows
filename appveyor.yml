@@ -20,8 +20,8 @@ build_script:
 - cmd: C:\cygwin64\bin\bash -e -l -c "mkdir /cygdrive/c/projects/frc-openjdk/build && cd /cygdrive/c/projects/frc-openjdk/build && wget http://hg.openjdk.java.net/jdk-updates/jdk10u/archive/${HG_REV}.zip && wget http://download.savannah.gnu.org/releases/freetype/freetype-2.5.3.tar.gz && tar -xzf freetype-2.5.3.tar.gz && unzip -q ${HG_REV}.zip && cd jdk10u-${HG_REV} && env JAVA_HOME=/cygdrive/c/Program\ Files/Java/jdk9 bash configure --with-version-patch=${PATCH_VER} --with-jvm-variants=server --with-freetype-src=/cygdrive/c/projects/frc-openjdk/build/freetype-2.5.3 --with-target-bits=${BITS} && make CONF=windows-${TARGET}-normal-server-release all && cd build/windows-${TARGET}-normal-server-release/images && zip -r jre.zip jre && zip -r jdk.zip jdk"
 test: off
 artifacts:
-- path: build\jdk10u-$(HG_REV)\build\windows-$(TARGET)-normal-server-release\jre.zip
+- path: build\jdk10u-$(HG_REV)\build\windows-$(TARGET)-normal-server-release\images\jre.zip
   name: JRE
-- path: build\jdk10u-$(HG_REV)\build\windows-$(TARGET)-normal-server-release\jdk.zip
+- path: build\jdk10u-$(HG_REV)\build\windows-$(TARGET)-normal-server-release\images\jdk.zip
   name: JDK
 
