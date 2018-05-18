@@ -14,11 +14,11 @@ image: Visual Studio 2013
 install:
 - cmd: C:\cygwin64\setup-x86_64.exe -qgnNdO -l C:\cygwin64\var\cache\setup -R c:\cygwin64 -s http://cygwin.mirror.constant.com -P make -P unzip -P zip
 build_script:
-- cmd: C:\cygwin64\bin\bash -e -l -c "mkdir /cygdrive/c/build && cd /cygdrive/c/build && wget https://github.com/dmlloyd/openjdk/archive/jdk/jdk10.zip && wget http://download.savannah.gnu.org/releases/freetype/freetype-2.5.3.tar.gz && tar -xzf freetype-2.5.3.tar.gz && unzip -q jdk10.zip && cd openjdk-jdk-jdk10 && env JAVA_HOME=/cygdrive/c/Program\ Files/Java/jdk9 bash configure --with-jvm-variants=server --with-freetype-src=/cygdrive/c/build/freetype-2.5.3 --with-target-bits=${BITS} && make CONF=windows-${TARGET}-normal-server-release all && cd build/windows-${TARGET}-normal-server-release/images && zip -r jre.zip jre && zip -r jdk.zip jdk"
+- cmd: C:\cygwin64\bin\bash -e -l -c "mkdir /cygdrive/c/projects/frc-openjdk/build && cd /cygdrive/c/projects/frc-openjdk/build && wget https://github.com/dmlloyd/openjdk/archive/jdk/jdk10.zip && wget http://download.savannah.gnu.org/releases/freetype/freetype-2.5.3.tar.gz && tar -xzf freetype-2.5.3.tar.gz && unzip -q jdk10.zip && cd openjdk-jdk-jdk10 && env JAVA_HOME=/cygdrive/c/Program\ Files/Java/jdk9 bash configure --with-jvm-variants=server --with-freetype-src=/cygdrive/c/projects/frc-openjdk/build/freetype-2.5.3 --with-target-bits=${BITS} && make CONF=windows-${TARGET}-normal-server-release all && cd build/windows-${TARGET}-normal-server-release/images && zip -r jre.zip jre && zip -r jdk.zip jdk"
 test: off
 artifacts:
-- path: C:\build\openjdk-jdk-jdk10\build\windows-$(TARGET)-normal-server-release\jre.zip
+- path: build\openjdk-jdk-jdk10\build\windows-$(TARGET)-normal-server-release\jre.zip
   name: JRE
-- path: C:\build\openjdk-jdk-jdk10\build\windows-$(TARGET)-normal-server-release\jdk.zip
+- path: build\openjdk-jdk-jdk10\build\windows-$(TARGET)-normal-server-release\jdk.zip
   name: JDK
 
