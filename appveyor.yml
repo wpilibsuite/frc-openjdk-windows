@@ -22,3 +22,11 @@ test: off
 artifacts:
 - path: jre-$(TARGET).zip
 - path: jdk-$(TARGET).zip
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: 9vEYpyGo8MTutVQyQTMECylYj87OoVNDLt0Jd7KuJK4DbyKs2VrGmVARDxLv6uR0
+  artifact: /.*\.zip/
+  on:
+    branch: windows
+    appveyor_repo_tag: true
