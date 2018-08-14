@@ -12,7 +12,7 @@ pull_requests:
   do_not_increment_build_number: true
 branches:
   only:
-  - windows
+  - master
 image: Visual Studio 2017
 install:
 - cmd: C:\cygwin64\setup-x86_64.exe -qgnNdO -l C:\cygwin64\var\cache\setup -R c:\cygwin64 -s http://cygwin.mirror.constant.com -P autoconf -P make -P unzip -P zip
@@ -27,5 +27,5 @@ deploy:
     secure: 9vEYpyGo8MTutVQyQTMECylYj87OoVNDLt0Jd7KuJK4DbyKs2VrGmVARDxLv6uR0
   artifact: /.*\.zip/
   on:
-    branch: windows
+    branch: master
     appveyor_repo_tag: true
