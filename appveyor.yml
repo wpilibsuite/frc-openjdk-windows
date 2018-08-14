@@ -17,7 +17,7 @@ image: Visual Studio 2017
 install:
 - cmd: C:\cygwin64\setup-x86_64.exe -qgnNdO -l C:\cygwin64\var\cache\setup -R c:\cygwin64 -s http://cygwin.mirror.constant.com -P autoconf -P make -P unzip -P zip
 build_script:
-- cmd: C:\cygwin64\bin\bash -e -l -c "mkdir /cygdrive/c/projects/frc-openjdk/build && cd /cygdrive/c/projects/frc-openjdk/build && wget http://hg.openjdk.java.net/jdk/jdk11/archive/${HG_REV}.zip && unzip -q ${HG_REV}.zip && cd jdk11-${HG_REV} && env JAVA_HOME=/cygdrive/c/Program\ Files/Java/jdk10 bash configure --with-version-patch=${PATCH_VER} --with-jvm-variants=server --with-target-bits=${BITS} && make CONF=windows-${TARGET}-normal-server-release all && cd build/windows-${TARGET}-normal-server-release/images && zip -r /cygdrive/c/projects/frc-openjdk/jdk-${TARGET}.zip jdk"
+- cmd: C:\cygwin64\bin\bash -e -l -c "mkdir /cygdrive/c/projects/frc-openjdk/build && cd /cygdrive/c/projects/frc-openjdk/build && wget http://hg.openjdk.java.net/jdk/jdk11/archive/${HG_REV}.zip && unzip -q ${HG_REV}.zip && cd jdk11-${HG_REV} && env JAVA_HOME=/cygdrive/c/Program\ Files/Java/jdk10 bash configure --with-version-patch=${PATCH_VER} --with-jvm-variants=server --with-target-bits=${BITS} --disable-warnings-as-errors && make CONF=windows-${TARGET}-normal-server-release all && cd build/windows-${TARGET}-normal-server-release/images && zip -r /cygdrive/c/projects/frc-openjdk/jdk-${TARGET}.zip jdk"
 test: off
 artifacts:
 - path: jdk-$(TARGET).zip
