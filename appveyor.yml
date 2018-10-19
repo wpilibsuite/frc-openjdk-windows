@@ -1,8 +1,8 @@
 version: "{branch}-{build}"
 environment:
   global:
-    PATCH_VER: 28
-    HG_REV: 76072a077ee1
+    PATCH_VER: 13
+    HG_REV: 8513ac27b651
   matrix:
   - TARGET: x86
     BITS: 32
