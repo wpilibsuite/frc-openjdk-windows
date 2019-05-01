@@ -1,0 +1,78 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+variables:
+    PATCH_VER: 13
+    HG_REV: 8513ac27b651
+
+trigger:
+- master
+
+jobs:
+ - job: "JDK_64_Bit"
+   pool:
+      vmImage: 'vs2017-win2016'
+   timeoutInMinutes: 0
+   steps:
+    - powershell: |
+        $ProgressPreference = 'SilentlyContinue'
+        wget "https://download.java.net/java/ga/jdk11/openjdk-11_windows-x64_bin.zip" -O "jdk.zip"
+      displayName: "Download JDK"
+    - task: JavaToolInstaller@0
+      inputs:
+        jdkSourceOption: localDirectory
+        jdkFile: 'jdk.zip'
+        jdkDestinationDirectory: 'C:/jdk11'
+        jdkArchitectureOption: x64
+    - powershell: |
+        $ProgressPreference = 'SilentlyContinue'
+        wget https://www.cygwin.com/setup-x86_64.exe -O "setup-x86_64.exe"
+      displayName: 'Install Cygwin'
+
+    - script: |
+        setup-x86_64.exe -qgnNdO -l C:\cygwin64\var\cache\setup -R c:\cygwin64 -s http://cygwin.mirror.constant.com -P autoconf -P make -P unzip -P zip -P wget
+        C:\cygwin64\bin\bash -e -l -c "mkdir -p /cygdrive/c/projects/frc-openjdk/build && cd /cygdrive/c/projects/frc-openjdk/build && wget http://hg.openjdk.java.net/jdk-updates/jdk11u/archive/${HG_REV}.zip && unzip -q ${HG_REV}.zip && cd jdk11u-${HG_REV} && env JAVA_HOME=/cygdrive/c/jdk11/jdk-11 bash configure --with-version-patch=${PATCH_VER} --with-jvm-variants=server --with-target-bits=64 --disable-warnings-as-errors --with-extra-cxxflags=-Zc:sizedDealloc- && make CONF=windows-x86_64-normal-server-release jdk-image && cd build/windows-x86_64-normal-server-release/images && zip -r /cygdrive/c/projects/frc-openjdk/jdk-x86_64.zip jdk"
+      displayName: "Build JDK"
+    - task: CopyFiles@2
+      inputs:
+        contents: 'jdk-x86_64.zip'
+        SourceFolder: 'C:\projects\frc-openjdk'
+        targetFolder: $(Build.ArtifactStagingDirectory)
+    - task: PublishBuildArtifacts@1
+      inputs:
+        artifactName: 'JDK64'
+
+ - job: "JDK_32_Bit"
+   pool:
+      vmImage: 'vs2017-win2016'
+   timeoutInMinutes: 0
+   steps:
+    - powershell: |
+        $ProgressPreference = 'SilentlyContinue'
+        wget "https://download.java.net/java/ga/jdk11/openjdk-11_windows-x64_bin.zip" -O "jdk.zip"
+      displayName: "Download JDK"
+    - task: JavaToolInstaller@0
+      inputs:
+        jdkSourceOption: localDirectory
+        jdkFile: 'jdk.zip'
+        jdkDestinationDirectory: 'C:/jdk11'
+        jdkArchitectureOption: x64
+    - powershell: |
+        $ProgressPreference = 'SilentlyContinue'
+        wget https://www.cygwin.com/setup-x86_64.exe -O "setup-x86_64.exe"
+      displayName: 'Install Cygwin'
+
+    - script: |
+        setup-x86_64.exe -qgnNdO -l C:\cygwin64\var\cache\setup -R c:\cygwin64 -s http://cygwin.mirror.constant.com -P autoconf -P make -P unzip -P zip -P wget
+        C:\cygwin64\bin\bash -e -l -c "mkdir -p /cygdrive/c/projects/frc-openjdk/build && cd /cygdrive/c/projects/frc-openjdk/build && wget http://hg.openjdk.java.net/jdk-updates/jdk11u/archive/${HG_REV}.zip && unzip -q ${HG_REV}.zip && cd jdk11u-${HG_REV} && env JAVA_HOME=/cygdrive/c/jdk11/jdk-11 bash configure --with-version-patch=${PATCH_VER} --with-jvm-variants=server --with-target-bits=32 --disable-warnings-as-errors --with-extra-cxxflags=-Zc:sizedDealloc- && make CONF=windows-x86-normal-server-release jdk-image && cd build/windows-x86-normal-server-release/images && zip -r /cygdrive/c/projects/frc-openjdk/jdk-x86.zip jdk"
+      displayName: "Build JDK"
+    - task: CopyFiles@2
+      inputs:
+        contents: 'jdk-x86.zip'
+        SourceFolder: 'C:\projects\frc-openjdk'
+        targetFolder: $(Build.ArtifactStagingDirectory)
+    - task: PublishBuildArtifacts@1
+      inputs:
+        artifactName: 'JDK32'
