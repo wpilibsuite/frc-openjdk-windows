@@ -37,7 +37,7 @@ jobs:
       displayName: "Build JDK"
     - task: CopyFiles@2
       inputs:
-        contents: 'jdk-x86-64.zip'
+        contents: 'jdk-x86_64.zip'
         SourceFolder: 'C:\projects\frc-openjdk'
         targetFolder: $(Build.ArtifactStagingDirectory)
     - task: PublishBuildArtifacts@1
