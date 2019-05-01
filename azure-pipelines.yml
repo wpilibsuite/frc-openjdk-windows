@@ -17,6 +17,6 @@ steps:
 
 - powershell: |
     $ProgressPreference = 'SilentlyContinue'
-    wget https://www.cygwin.com/setup-x86_64.exe
+    wget https://www.cygwin.com/setup-x86_64.exe -O "setup-x86_64.exe"
     setup-x86_64.exe -qgnNdO -l C:\cygwin64\var\cache\setup -R c:\cygwin64 -s http://cygwin.mirror.constant.com -P autoconf -P make -P unzip -P zip
   displayName: 'Install Cygwin'
