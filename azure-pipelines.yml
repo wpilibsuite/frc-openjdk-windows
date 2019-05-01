@@ -15,8 +15,8 @@ pool:
 
 steps:
 
-- powershell: |
+- script: |
     $ProgressPreference = 'SilentlyContinue'
-    wget http://hg.openjdk.java.net/jdk-updates/jdk11u/archive/$env:HG_REV.zip
-    7z e $env:HG_REV.zip
-  displayName: 'Download And Unzip'
+    wget https://www.cygwin.com/setup-x86_64.exe
+    setup-x86_64.exe -qgnNdO -l C:\cygwin64\var\cache\setup -R c:\cygwin64 -s http://cygwin.mirror.constant.com -P autoconf -P make -P unzip -P zip
+  displayName: 'Install Cygwin'
