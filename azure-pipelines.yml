@@ -1,0 +1,22 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+variables:
+    PATCH_VER: 13
+    HG_REV: 8513ac27b651
+
+trigger:
+- master
+
+pool:
+  vmImage: 'vs2017-win2016'
+
+steps:
+
+- powershell: |
+    $ProgressPreference = 'SilentlyContinue'
+    wget http://hg.openjdk.java.net/jdk-updates/jdk11u/archive/$env:HG_REV.zip
+    7z e $env:HG_REV.zip
+  displayName: 'Download And Unzip'
